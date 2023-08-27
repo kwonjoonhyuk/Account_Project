@@ -8,15 +8,14 @@ import com.example.account_project.repository.AccountRepository;
 import com.example.account_project.repository.AccountUserRepository;
 import com.example.account_project.type.AccountStatus;
 import com.example.account_project.type.ErrorCode;
-import jakarta.transaction.Status;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.redisson.api.RLock;
-import org.redisson.api.RedissonClient;
+
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -85,7 +84,7 @@ public class AccountService {
     }
 
     private void validateDeleteAccount(AccountUser accountUser, Account account) {
-        if (accountUser.getId() != account.getAccountUser().getId()) {
+        if (!Objects.equals(accountUser.getId(), account.getAccountUser().getId())) {
             throw new AccountException(ErrorCode.USER_ACCOUNT_UN_MATCH);
         }
         if (account.getAccountStatus() == AccountStatus.UNREGISTERED) {
