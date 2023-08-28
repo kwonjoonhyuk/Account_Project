@@ -45,7 +45,7 @@ class LockServiceTest {
     }
 
     @Test
-    @DisplayName("Lock 취득 성공")
+    @DisplayName("Lock 취득 실패")
     void failGetLock() throws InterruptedException {
         //given
         given(redissonClient.getLock(anyString()))
