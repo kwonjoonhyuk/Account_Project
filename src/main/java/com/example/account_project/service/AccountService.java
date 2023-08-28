@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import static com.example.account_project.type.ErrorCode.USER_NOT_FOUND;
+
 @Service
 @RequiredArgsConstructor
 public class AccountService {
@@ -34,8 +36,7 @@ public class AccountService {
 
     @Transactional
     public AccountDto createAccount(Long userId, Long initialBalance) {
-        AccountUser accountUser = accountUserRepository.findById(userId).orElseThrow(
-                () -> new AccountException(ErrorCode.USER_NOT_FOUND));
+        AccountUser accountUser = getAccountUser(userId);
 
         validateCreateAccount(accountUser); // 계좌수가 10개가 넘어가면 예외발생시키는 메소드
 
@@ -51,6 +52,11 @@ public class AccountService {
                         .registeredAt(LocalDateTime.now())
                         .build())
         );
+    }
+
+    private AccountUser getAccountUser(Long userId) {
+        return accountUserRepository.findById(userId)
+                .orElseThrow(() -> new AccountException(USER_NOT_FOUND));
     }
 
     private void validateCreateAccount(AccountUser accountUser) {
@@ -69,8 +75,7 @@ public class AccountService {
 
     @Transactional
     public AccountDto deleteAccount(Long userId, String accountNumber) {
-        AccountUser accountUser = accountUserRepository.findById(userId)
-                .orElseThrow(() -> new AccountException(ErrorCode.USER_NOT_FOUND));
+        AccountUser accountUser = getAccountUser(userId);
         Account account = accountRepository.findByAccountNumber(accountNumber)
                 .orElseThrow(() -> new AccountException(ErrorCode.ACCOUNT_NOT_FOUND));
 
@@ -97,8 +102,7 @@ public class AccountService {
     }
     @Transactional
     public List<AccountDto> getAccountByUserId(Long userId) {
-        AccountUser accountUser = accountUserRepository.findById(userId)
-                .orElseThrow(() -> new AccountException(ErrorCode.USER_NOT_FOUND));
+        AccountUser accountUser = getAccountUser(userId);
 
         List<Account> accounts = accountRepository.findByAccountUser(accountUser);
         return accounts.stream()
