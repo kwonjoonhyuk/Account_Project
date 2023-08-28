@@ -11,8 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.logging.Handler;
+
 
 /*
  * 잔액 관련 컨트롤러
@@ -29,7 +28,7 @@ public class TransactionController {
     @AccountLock
     public UseBalance.Response useBalance(@Valid @RequestBody UseBalance.Request request) throws InterruptedException {
         try {
-            Thread.sleep(5000L);
+            Thread.sleep(3000L);
             return UseBalance.Response.from(
                     transactionService.useBalance(request.getUserId(),
                             request.getAccountNumber(), request.getAmount())
