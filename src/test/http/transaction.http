@@ -5,7 +5,7 @@ Content-Type: application/json
 {
   "userId": 1,
   "accountNumber" : "1000000000",
-  "amount": 1000
+  "amount": 10000
 }
 
 ### 잔액 사용2
@@ -24,9 +24,9 @@ POST http://localhost:8080/transaction/cancel
 Content-Type: application/json
 
 {
-  "transactionId": "39b38f9dcd90438e928ae845cef09b15",
+  "transactionId": "a8aa4d75526b45d9b4a04a352ca6c80e",
   "accountNumber" : "1000000000",
-  "amount": 1000
+  "amount": 10000
 }
 
 ### 거래 정보
