@@ -1,17 +1,14 @@
 package com.example.account_project.controller;
 
 import com.example.account_project.domain.Account;
-import com.example.account_project.dto.AccountDto;
 import com.example.account_project.dto.AccountInfo;
 import com.example.account_project.dto.CreateAccount;
 import com.example.account_project.dto.DeleteAccount;
 import com.example.account_project.service.AccountService;
-import com.example.account_project.service.RedisTestService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,7 +16,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AccountController {
     private final AccountService accountService;
-    private final RedisTestService redisTestService;
 
     @PostMapping("/account")
     public CreateAccount.Response creatAccount(@RequestBody @Valid CreateAccount.Request request) {
@@ -42,11 +38,6 @@ public class AccountController {
                 stream().map(accountDto -> AccountInfo.builder()
                         .accountNumber(accountDto.getAccountNumber())
                         .balance(accountDto.getBalance()).build()).collect(Collectors.toList());
-    }
-
-    @GetMapping("/get-lock")
-    public String getLock() {
-        return redisTestService.getLock();
     }
 
 
