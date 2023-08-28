@@ -4,14 +4,15 @@ import com.example.account_project.Exception.AccountException;
 import com.example.account_project.aop.AccountLock;
 import com.example.account_project.dto.CancelBalance;
 import com.example.account_project.dto.QueryTransactionResponse;
-import com.example.account_project.dto.TransactionDto;
 import com.example.account_project.dto.UseBalance;
 import com.example.account_project.service.TransactionService;
 import jakarta.validation.Valid;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.logging.Handler;
 
 /*
  * 잔액 관련 컨트롤러
@@ -26,8 +27,9 @@ public class TransactionController {
 
     @PostMapping("transaction/use")
     @AccountLock
-    public UseBalance.Response useBalance(@Valid @RequestBody UseBalance.Request request) {
+    public UseBalance.Response useBalance(@Valid @RequestBody UseBalance.Request request) throws InterruptedException {
         try {
+            Thread.sleep(5000L);
             return UseBalance.Response.from(
                     transactionService.useBalance(request.getUserId(),
                             request.getAccountNumber(), request.getAmount())

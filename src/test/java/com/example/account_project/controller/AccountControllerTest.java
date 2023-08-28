@@ -9,7 +9,6 @@ import com.example.account_project.type.AccountStatus;
 import com.example.account_project.service.AccountService;
 import com.example.account_project.type.ErrorCode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;

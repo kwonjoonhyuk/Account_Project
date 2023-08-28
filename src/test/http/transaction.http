@@ -8,6 +8,17 @@ Content-Type: application/json
   "amount": 1000
 }
 
+### 잔액 사용2
+POST http://localhost:8080/transaction/use
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "accountNumber" : "1000000000",
+  "amount": 1000
+}
+
+
 ### 잔액 사용 취소
 POST http://localhost:8080/transaction/cancel
 Content-Type: application/json

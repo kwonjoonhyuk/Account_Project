@@ -20,14 +20,21 @@ public class LockService {
         RLock lock = redissonClient.getLock("ACLK" + accountNumber); //lock에 쓰는 키로 쓰겠다.
         log.debug("Trying Lock for accountNumber : {}", accountNumber);
         try {
-            boolean isLock = lock.tryLock(1, 5, TimeUnit.SECONDS);
+            boolean isLock = lock.tryLock(1, 15, TimeUnit.SECONDS);
             if (!isLock) {
                 log.error("================Lock acquisition failed================");
                 throw new AccountException(ErrorCode.ACCOUNT_TRANSACTION_LOCK);
             }
-        } catch (Exception e) {
-            log.error("Redis lock failed");
+        } catch (AccountException e) {
+            throw e;
+        }catch (Exception e){
+            log.error("Redis lock failed",e);
         }
+    }
+
+    public void unlock(String accountNumber){
+        log.debug("Unlock for accountNumber : {} ",accountNumber);
+        redissonClient.getLock(getLockKey(accountNumber)).unlock();
     }
 
     private String getLockKey(String accountNumber) {
